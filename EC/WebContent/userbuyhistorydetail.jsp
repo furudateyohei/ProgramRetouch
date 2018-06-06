@@ -30,7 +30,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td class="center">${bdb.buyDate}</td>
+									<td class="center">${bdb.formatDate}</td>
 									<td class="center">${bdb.deliveryMethodName }</td>
 									<td class="center">${bdb.totalPrice}円</td>
 								</tr>
