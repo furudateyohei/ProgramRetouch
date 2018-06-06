@@ -8,11 +8,44 @@ public class BuyDataBeans  implements Serializable {
 	private int id;
 	private int userId;
 	private int totalPrice;
-	private int delivertMethodId;
+	private int deliveryMethodId;
 	private Date buyDate;
 
 	private String deliveryMethodName;
 	private int deliveryMethodPrice;
+
+	public BuyDataBeans() {
+
+	}
+
+	public BuyDataBeans(int id, int userId, int totalPrice, int deliveryMethodId, Date buyDate) {
+		this.id = id;
+		this.userId = userId;
+		this.totalPrice = totalPrice;
+		this.deliveryMethodId = deliveryMethodId;
+		this.buyDate = buyDate;
+	}
+
+	public BuyDataBeans(int id,int totalPrice,int deliveryMethodId, Date buyDate,String deliveryMethodName) {
+		this.id = id;
+		this.totalPrice = totalPrice;
+		this.deliveryMethodId = deliveryMethodId;
+		this.buyDate = buyDate;
+		this.deliveryMethodName = deliveryMethodName;
+	}
+
+	public BuyDataBeans(String id,int totalPrice,int deliveryMethodId, Date buyDate,String deliveryMethodName) {
+		this.id = Integer.parseInt(id);
+		this.deliveryMethodId = deliveryMethodId;
+		this.buyDate = buyDate;
+		this.totalPrice = totalPrice;
+		this.deliveryMethodName = deliveryMethodName;
+	}
+
+	public BuyDataBeans(int deliveryMethodPrice,String deliveryMethodName) {
+		this.deliveryMethodPrice = deliveryMethodPrice;
+		this.deliveryMethodName = deliveryMethodName;
+	}
 
 
 	public int getId() {
@@ -35,11 +68,11 @@ public class BuyDataBeans  implements Serializable {
 	}
 
 
-	public int getDelivertMethodId() {
-		return delivertMethodId;
+	public int getDeliveryMethodId() {
+		return deliveryMethodId;
 	}
-	public void setDelivertMethodId(int delivertMethodId) {
-		this.delivertMethodId = delivertMethodId;
+	public void setDeliveryMethodId(int deliveryMethodId) {
+		this.deliveryMethodId = deliveryMethodId;
 	}
 	public Date getBuyDate() {
 		return buyDate;

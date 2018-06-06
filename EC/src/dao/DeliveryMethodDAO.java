@@ -104,11 +104,11 @@ public class DeliveryMethodDAO {
 			con = DBManager.getConnection();
 
 			st = con.prepareStatement(
-					"SELECT m_delivery_method.name,"
-					+ " m_delivery_method.price"
+					"SELECT t_delivery_method.name,"
+					+ " t_delivery_method.price"
 					+ " FROM t_buy"
-					+ " JOIN m_delivery_method"
-					+ " ON m_delivery_method.id = t_buy.delivery_method_id"
+					+ " JOIN t_delivery_method"
+					+ " ON t_delivery_method.id = t_buy.delivery_method_id"
 					+ " WHERE t_buy.id = ?");
 			st.setInt(1, buyId);
 
@@ -117,7 +117,7 @@ public class DeliveryMethodDAO {
 
 			while (rs.next()) {
 				dmdb.setName(rs.getString("name"));
-				dmdb.setPrice(rs.getInt("m_delivery_method.price"));
+				dmdb.setPrice(rs.getInt("t_delivery_method.price"));
 
 			}
 

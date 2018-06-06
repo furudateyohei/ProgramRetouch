@@ -32,7 +32,7 @@ public class BuyDAO {
 					Statement.RETURN_GENERATED_KEYS);
 			st.setInt(1, bdb.getUserId());
 			st.setInt(2, bdb.getTotalPrice());
-			st.setInt(3, bdb.getDelivertMethodId());
+			st.setInt(3, bdb.getDeliveryMethodId());
 			st.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 			st.executeUpdate();
 
@@ -81,7 +81,7 @@ public class BuyDAO {
 				bdb.setId(rs.getInt("id"));
 				bdb.setTotalPrice(rs.getInt("total_price"));
 				bdb.setBuyDate(rs.getTimestamp("create_date"));
-				bdb.setDelivertMethodId(rs.getInt("delivery_method_id"));
+				bdb.setDeliveryMethodId(rs.getInt("delivery_method_id"));
 				bdb.setUserId(rs.getInt("user_id"));
 				bdb.setDeliveryMethodPrice(rs.getInt("price"));
 				bdb.setDeliveryMethodName(rs.getString("name"));

@@ -52,7 +52,7 @@
 					<h4><%=item.getName()%></h4>
 					<h5><%=item.getPrice()%>円
 					</h5>
-					<p><%=item.getName()%></p>
+					<p><%=item.getDetail()%></p>
 				</div>
 			</div>
 		</div>

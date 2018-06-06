@@ -5,8 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import base.DBManager;
+import beans.BuyDataBeans;
+import beans.ItemDataBeans;
 import beans.UserDataBeans;
 import ec.EcHelper;
 
@@ -225,4 +230,166 @@ public class UserDAO {
 		return isOverlap;
 	}
 
-}
+	public List<BuyDataBeans> buyhistory(int user_id){
+		Connection con = null;
+		PreparedStatement st = null;
+		List<BuyDataBeans> buyhistory = new ArrayList <BuyDataBeans>();
+		try {
+			con = DBManager.getConnection();
+			st = con.prepareStatement("SELECT t_buy.id, t_buy.create_date, t_buy.total_price, "
+					+ "t_buy.delivery_method_id, m_delivery_method.name,m_delivery_method.price "
+					+ "FROM t_buy INNER JOIN m_delivery_method "
+					+ "ON t_buy.delivery_method_id = m_delivery_method.id "
+					+ "WHERE t_buy.user_id = ? ");
+			st.setInt(1,user_id);
+			ResultSet rs = st.executeQuery();
+
+			while(rs.next()) {
+				int id = rs.getInt ("id");
+				int total_price = rs.getInt("total_price");
+				int delivery_method_id = rs.getInt("delivery_method_id");
+				Date create_date = rs.getTimestamp("create_date");
+				String name =rs.getString("name");
+
+				BuyDataBeans user = new BuyDataBeans(id,total_price,delivery_method_id,create_date,name);
+
+				buyhistory.add(user);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+
+			}
+		return buyhistory;
+		}
+
+	public  BuyDataBeans getBuyDataBeansById(String id) {
+		Connection con = null;
+		try {
+			con = DBManager.getConnection();
+			String st = "SELECT t_buy.id, t_buy.create_date, t_buy.total_price, "
+					+ "t_buy.delivery_method_id, m_delivery_method.name "
+					+ "FROM t_buy INNER JOIN m_delivery_method "
+					+ "ON t_buy.delivery_method_id = m_delivery_method.id "
+					+ "WHERE t_buy.id = ? ";
+			PreparedStatement pStmt = con.prepareStatement(st);
+			pStmt.setString(1, id);
+			ResultSet rs = pStmt.executeQuery();
+
+			if(!rs.next()) {
+            	return null;
+            }
+
+			int Buyid = rs.getInt ("id");
+			int total_price = rs.getInt("total_price");
+			int delivery_method_id = rs.getInt("delivery_method_id");
+			Date create_date = rs.getTimestamp("create_date");
+			String name =rs.getString("name");
+
+			BuyDataBeans bdb = new BuyDataBeans(Buyid,total_price,delivery_method_id,create_date,name);
+			return bdb;
+
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+
+		}finally {
+			if(con != null);{
+				try {
+					con.close();
+				}catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+					}
+				}
+			}
+		}
+	public  List<ItemDataBeans> BuyDetailgetId(String id) {
+		Connection con = null;
+		PreparedStatement st = null;
+		List<ItemDataBeans> BuyDetailgetId = new ArrayList <ItemDataBeans>();
+		try {
+			con = DBManager.getConnection();
+			st = con.prepareStatement ("SELECT m_item.name,m_item.price "
+					+  "FROM m_item "
+					+  "INNER JOIN t_buy_detail "
+					+  "ON m_item.id = t_buy_detail.item_id	"
+					+  "WHERE t_buy_detail.buy_id = ? ");
+			st.setString(1,id);
+			ResultSet rs = st.executeQuery();
+
+			while(rs.next())  {
+
+			String name =rs.getString("name");
+			int price = rs.getInt("price");
+
+			ItemDataBeans item = new ItemDataBeans(name,price);
+
+			BuyDetailgetId.add(item);
+			}
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			if(con != null) {
+				try {
+					con.close();
+				}catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+
+			}
+		return BuyDetailgetId;
+		}
+	public  BuyDataBeans deliverydetail(String id) {
+		Connection con = null;
+		try {
+			con = DBManager.getConnection();
+			String st = "SELECT m_delivery_method.name,m_delivery_method.price "
+					+ "FROM m_delivery_method INNER JOIN t_buy "
+					+ "ON m_delivery_method.id = t_buy.delivery_method_id "
+					+ "WHERE t_buy.id = ? ";
+			PreparedStatement pStmt = con.prepareStatement(st);
+			pStmt.setString(1, id);
+			ResultSet rs = pStmt.executeQuery();
+
+			if(!rs.next()) {
+            	return null;
+            }
+
+			int price = rs.getInt("price");
+			String name =rs.getString("name");
+
+			BuyDataBeans deliverydetail = new BuyDataBeans(price,name);
+			return deliverydetail;
+
+
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+
+		}finally {
+			if(con != null);{
+				try {
+					con.close();
+				}catch (SQLException e) {
+					e.printStackTrace();
+					return null;
+					}
+				}
+			}
+		}
+	}

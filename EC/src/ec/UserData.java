@@ -1,6 +1,7 @@
 package ec;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.BuyDataBeans;
 import beans.UserDataBeans;
 import dao.UserDAO;
 
@@ -41,6 +43,11 @@ public class UserData extends HttpServlet {
 			request.setAttribute("validationMessage", validationMessage);
 			request.setAttribute("udb", udb);
 
+			UserDAO userDao = new UserDAO();
+			List<BuyDataBeans> buyhistory = userDao.buyhistory(userId);
+
+			request.setAttribute("buyhistory", buyhistory);
+
 			request.getRequestDispatcher(EcHelper.USER_DATA_PAGE).forward(request, response);
 
 		} catch (Exception e) {
@@ -48,6 +55,6 @@ public class UserData extends HttpServlet {
 			session.setAttribute("errorMessage", e.toString());
 			response.sendRedirect("Error");
 		}
-	}
 
+	}
 }

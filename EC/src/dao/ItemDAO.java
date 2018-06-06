@@ -77,7 +77,7 @@ public class ItemDAO {
 			if (rs.next()) {
 				item.setId(rs.getInt("id"));
 				item.setName(rs.getString("name"));
-				item.setDetail(rs.getString("name"));
+				item.setDetail(rs.getString("detail"));
 				item.setPrice(rs.getInt("price"));
 				item.setFileName(rs.getString("file_name"));
 			}
@@ -117,8 +117,8 @@ public class ItemDAO {
 				st.setInt(2, pageMaxItemCount);
 			} else {
 				// 商品名検索
-				st = con.prepareStatement("SELECT * FROM m_item WHERE name = ?  ORDER BY id ASC LIMIT ?,? ");
-				st.setString(1,searchWord);
+				st = con.prepareStatement("SELECT * FROM m_item WHERE name LIKE ?  ORDER BY id ASC LIMIT ?,? ");
+				st.setString(1, "%" + searchWord + "%");
 				st.setInt(2, startiItemNum);
 				st.setInt(3, pageMaxItemCount);
 			}
